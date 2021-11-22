@@ -1,0 +1,44 @@
+Constraints:
+
+box <= 15,000 cm^3
+productId >= 1
+quantity >= 1
+
+First thoughts:
+
+----------Boxes----------
+As soon as the order volume is bigger than 15000 cm^3, a new box is required.
+We create a variable as numOfBoxes to keep track of the number of boxes created, which gets incremented when the box reaches its limit.
+Also, we need to keep track of its available volume for the next products.
+
+
+----------Order----------
+Order is an array of associative arrays, and we need to keep track of already packed products.
+
+
+----------Ex of output----------
+It seems that box 1 has 500 cm^3 of free space, so the boxes are not fully utilized.
+
+The algorithm is as follows: (Linear time complexity)
+    - Initialize a variable called boxes, which is an array of different boxes
+    - Iterate through the order
+    - Iterate through the quantity of the product ordered and add it to the box if there is a space available.
+    - In case there is no more space available (check if we added the product to the box how much volume is needed in the box),
+    we push the filled box into the boxes array and create a new box.
+
+
+
+Second thoughts:
+Check if productVolume * quantity <= volumeAvailable in box
+For box utilization, before going through the quantity of the product, we check if there is any available space for it in previous boxes
+
+
+
+Optimized Approach thoughts: O(n*m) => O(n) or O(m)
+    - We can find the total number of boxes required by adding up the volume of each product * quantity.
+    - We iterate through the order.
+    - On every iteration, we iterate through the boxes and check where we can add this product and how many we can add to a certain box ($numOfQtyToAdd).
+    - Check if $numOfQtyToAdd is greater than the ordered product quantity
+        - if yes, add the whole quantity to the box and move on to other products
+        - if no add the $numOfQtyToAdd
+        - recheck
